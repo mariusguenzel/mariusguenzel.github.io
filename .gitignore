@@ -1,0 +1,6 @@
+# Operating-system clutter. Nothing else belongs here - this folder holds only
+# the website, which is why there is no long exclusion list. Press PDFs, design
+# history and notes live in the Dropbox workspace and are not in this repo.
+.DS_Store
+Thumbs.db
+desktop.ini

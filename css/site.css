@@ -1,0 +1,882 @@
+:root {
+  --bg:          #F8F7F2;
+  --bg-alt:      #F0EEE6;
+  --ink:         #221F1C;
+  --muted:       #6B635C;
+  --rule:        #DFDBCE;
+  --rule-strong: #3B332C;
+  --accent:      #40598C;
+  --accent-hov:  #334770;
+
+  /* Publication accent. Two accents, two jobs: blue means interactive,
+     sienna means published. Journal names take the darker value; the 4px
+     keyline takes the brighter one, which is legal because a rule is a
+     graphic element and needs 3:1, not the 4.5:1 that text needs. */
+  --venue:       #A34A1C;
+  --keyline:     #C2601E;
+
+  --dark:        #24201D;
+  --dark-text:   #CBC3BA;
+  --dark-hi:     #F4F1EC;
+  --dark-rule:   #554C44;
+  --dark-muted:  #9A9089;
+
+  --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --sans:  'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --measure: 880px;
+  --gutter: 40px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hov); text-decoration: underline; }
+
+/* iOS Safari auto-links bare number strings as telephone numbers, which
+   turned the paper numbers and citation details blue. The real site should
+   also carry <meta name="format-detection" content="telephone=no"> in the
+   head; this neutralises the styling wherever that meta is not present. */
+a[href^="tel:"] {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
+}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Journal-cover keyline. Bookends the dark footer at the other end.
+   4px, not 5 Ã¢â‚¬â€ burgundy is dark enough that 5 read heavier than intended. */
+.keyline { height: 4px; background: var(--keyline); }
+
+/* ---------- masthead ---------- */
+
+.masthead { padding: 22px 0 12px; }
+.masthead-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+}
+.standfirst {
+  margin-top: 7px;
+  font-size: 11.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.logo-slot { width: 176px; display: block; }
+.logo-slot img { width: 100%; height: auto; display: block; }
+
+/* ---------- tabs ---------- */
+
+.tabs-shell {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-top: 2px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+}
+.tabs-row { display: flex; align-items: center; }
+
+/* The masthead does not follow you down the page; the name does, in small
+   type, once the masthead has scrolled past. */
+.mini-name {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 260ms ease, opacity 180ms ease, margin-right 260ms ease;
+  margin-right: 0;
+}
+.tabs-shell.scrolled .mini-name { max-width: 260px; opacity: 1; margin-right: 30px; }
+@media (prefers-reduced-motion: reduce) { .mini-name { transition: none; } }
+
+.tabs { display: flex; gap: 32px; flex-wrap: wrap; }
+.tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  font: inherit;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 9px 0 8px;
+  margin-bottom: -1px;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+.tab:hover { color: var(--ink); text-decoration: none; }
+.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab .ext { font-size: 10.5px; color: var(--muted); }
+
+/* Mobile navigation: the tab row becomes a disclosure menu. Built on
+   <details> like the paper accordions, so it works with JavaScript off. */
+.navmenu { display: none; }
+.navmenu > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 0;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.navmenu > summary::-webkit-details-marker { display: none; }
+.navmenu .menu-caret { flex: 0 0 9px; fill: currentColor; transition: transform 140ms ease; }
+.navmenu[open] > summary .menu-caret { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .navmenu .menu-caret { transition: none; } }
+
+.navmenu-panel { display: flex; flex-direction: column; padding-bottom: 6px; }
+.menu-item {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  font: inherit;
+  font-family: var(--sans);
+  font-size: 16px;
+  text-align: left;
+  color: var(--ink);
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+}
+.menu-item:hover { text-decoration: none; }
+.menu-item[aria-current="page"] { color: var(--accent); font-weight: 600; }
+.menu-item .ext { font-size: 13px; color: var(--muted); }
+
+/* ---------- pages ---------- */
+
+.page { padding: 20px 0 30px; }
+.stack { display: flex; flex-direction: column; gap: 20px; }
+
+.page-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+}
+
+.sec-head {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-strong);
+  margin-bottom: 8px;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-size: 19.5px;
+  font-weight: 500;
+}
+
+/* ---------- intro ---------- */
+
+.intro { display: flex; gap: 28px; align-items: flex-start; }
+.portrait-col { flex: 0 0 148px; }
+
+/* Square corners, deliberately: there is no border-radius anywhere on
+   this site. A rounded photograph would be the one rounded thing on the
+   page, and rounding a portrait is the avatar convention Ã¢â‚¬â€ app UI
+   grammar on a page built to read as printed matter.
+
+   No frame either. A 1px --rule hairline was tried and removed: the
+   headshot is black and white on charcoal, so a pale line between a dark
+   photo and a cream ground is invisible at any normal viewing distance.
+   The photo already carries the hardest edge on the page; nothing needs
+   to be added to it. */
+.portrait {
+  width: 148px;
+  height: 222px;
+  background: var(--bg-alt);
+  overflow: hidden;
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.lede {
+  font-family: var(--serif);
+  font-size: 18.5px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.sub {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 12px;
+  text-wrap: pretty;
+}
+
+/* ---------- what's new ---------- */
+
+.whats-new { display: grid; grid-template-columns: 140px 1fr; gap: 0 16px; }
+.whats-new > * { border-top: 1px solid var(--rule); padding: 9px 0; }
+.whats-new > *:nth-child(1), .whats-new > *:nth-child(2) { border-top: 0; padding-top: 0; }
+.wn-date {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.wn-text {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.48;
+  text-wrap: pretty;
+}
+
+/* ---------- paper entry ---------- */
+
+.paper {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 0 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.paper:last-child { border-bottom: 0; }
+.paper-num {
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--muted);
+  padding-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.paper-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+
+.paper-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+.byline { font-size: 13px; color: var(--muted); }
+
+/* Optional plain-language line under a paper title, for readers who are not
+   economists. Styled and ready; add a <div class="takeaway"> under any title
+   and it needs no further CSS. Deliberately unused for now. */
+.takeaway {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.45;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* One treatment for every venue line: published, forthcoming, under review. */
+/* Journal names sit below the title in weight but stand apart by colour and
+   italic Ã¢â‚¬â€ citation convention does the work, so nothing has to shout. */
+.venue-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 1px 9px; }
+.journal {
+  font-family: var(--serif);
+  font-size: 15.5px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--venue);
+}
+.venue-detail {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.award { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* The burgundy accent is confined to the Research page. It was tried on a
+   journal named in running prose in What's New and removed: in a sentence
+   that already carries a blue link, a second coloured span reads as a second
+   link rather than as a venue. Journals in prose stay plain italic. */
+
+.links { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; }
+
+/* Stacked, never side by side Ã¢â‚¬â€ an open panel would shove its neighbour around. */
+.disclosures { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+details { width: 100%; }
+
+details > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 13.5px;
+  width: fit-content;
+  padding: 2px 0;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary:hover { color: var(--accent-hov); text-decoration: underline; }
+.caret { flex: 0 0 7px; fill: currentColor; transition: transform 120ms ease; }
+details[open] > summary .caret { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { .caret { transition: none; } }
+
+.panel { border-left: 1px solid var(--rule); padding: 2px 0 2px 16px; margin: 6px 0 8px; }
+/* No cap. The abstract fills the panel Ã¢â‚¬â€ 733px at the 880 measure, about
+   100 characters Ã¢â‚¬â€ which is as wide as it can go without leaving the
+   column the rest of the entry sits in.
+
+   This went 64ch Ã¢â€ â€™ 82ch Ã¢â€ â€™ none, each step to make the block shorter
+   rather than to improve the measure; at 100ch the line is past textbook
+   comfort. Two things pay for that: 1.65 line-height, so the eye finds
+   the start of the next line, and the fact that the panel is closed by
+   default and opened deliberately by someone who wants this specific
+   abstract. It is not text anyone reads by accident. The presentations
+   list below it is uncapped too, so the two panels now agree. */
+.panel.abstract { font-family: var(--serif); font-size: 15px; line-height: 1.65; }
+/* Most abstracts are a single block. The handbook chapter carries a
+   three-paragraph Summary instead, and the global `p { margin: 0 }`
+   would otherwise run its paragraphs together. */
+.panel.abstract p + p { margin-top: 0.72em; }
+.panel.list { font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+
+/* A presentation panel reads top to bottom as scope, list, legend.
+   The accordion label is just "Presentations", matching its sibling
+   "Abstract". Both qualifiers live in the scope line instead: the scope
+   is a property of the list, not of the control that opens it, and
+   "Selected" is a claim about completeness that matters to someone
+   reading the list rather than to someone deciding whether to open it.
+   Stacking it in both places said it twice, fifteen pixels apart. */
+/* No rules inside the panel. The panel already has a left border; three
+   hairlines in a 13.5px block turned a short list into a small table.
+   Space does the separating instead. */
+.panel .scope {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+/* Each panel carries its own legend rather than the page carrying one. A
+   legend is only useful where the marker is in view, and these panels open
+   one at a time Ã¢â‚¬â€ a note at the foot of a twelve-entry page would be a
+   scroll away from the asterisk it explains. Only the markers that actually
+   occur in a given list are printed, so two papers carry no legend at all. */
+.panel .legend {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* The marker in ink so the eye can match it to the list above, raised
+   explicitly rather than relying on the font. Archivo sets the asterisk
+   near the middle of the cap height, which reads as punctuation; lifted it
+   reads as the reference mark it is. */
+.panel .legend .mk {
+  color: var(--ink);
+  font-weight: 500;
+  display: inline-block;
+  transform: translateY(-0.22em);
+}
+
+.ph { color: var(--muted); font-style: italic; }
+
+/* ---------- discussions ---------- */
+
+.disc {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.disc:last-child { border-bottom: 0; }
+.venue {
+  font-size: 11.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 3px;
+}
+.disc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.disc-title { font-family: var(--serif); font-size: 16px; line-height: 1.32; text-wrap: pretty; }
+.disc-meta { font-size: 13px; color: var(--muted); }
+
+/* ---------- media ---------- */
+
+.media {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.media:last-child { border-bottom: 0; }
+/* Dates set like What's New Ã¢â‚¬â€ both are dates, so both are serif figures. */
+.media-date {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 1px;
+}
+.media-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.media-title {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+/* The outlet is the signal for this page's readers, not the headline Ã¢â‚¬â€
+   so it sits in ink, scannable down the column. */
+.media-outlet { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+/* How Marius was involved. Factual, not evaluative: a controlled vocabulary
+   of Interview / Interviewed / Research covered. */
+.media-role { font-weight: 400; color: var(--muted); }
+.media-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* Provenance line under the page title. A sentence, not a logo wall. */
+.page-note {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 9px;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.page-note strong { font-weight: 500; color: var(--ink); }
+
+/* ---------- teaching ---------- */
+
+.course {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.course:last-child { border-bottom: 0; }
+.level {
+  font-size: 11.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 5px;
+}
+.course-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.course-title { font-family: var(--serif); font-size: 17.5px; font-weight: 500; line-height: 1.26; }
+
+/* ---------- dark footer ---------- */
+
+.site-foot { background: var(--dark); color: var(--dark-text); }
+.site-foot .wrap { padding-top: 30px; padding-bottom: 34px; }
+.foot-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+.foot-name { font-family: var(--serif); font-size: 21px; font-weight: 500; color: var(--dark-hi); }
+.foot-role {
+  margin-top: 6px;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dark-muted);
+}
+.foot-links { display: flex; flex-direction: column; gap: 7px; font-size: 14px; text-align: right; }
+.foot-links a {
+  color: var(--dark-hi);
+  text-decoration: underline;
+  text-decoration-color: var(--dark-rule);
+  text-underline-offset: 4px;
+}
+.foot-links a:hover { color: #FFFFFF; text-decoration-color: var(--dark-hi); }
+.foot-rule { height: 1px; background: #3A332E; margin: 22px 0 13px; }
+.foot-updated {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dark-muted);
+}
+.foot-updated .ph { color: var(--dark-muted); }
+
+/* ---------- research themes (home page) ----------
+   No numbering: three concurrent areas are not a sequence, and 01/02/03
+   would assert an order that isn't there. The rules do the separating. */
+
+/* Aligned to the page measure like everything else. */
+.themes-wide { margin-top: 54px; }
+.wrap-wide { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Capped columns. Static: no hover colour, no click behaviour, no links on
+   the questions. Everything is visible at rest.
+
+   Fifteen alternatives were built and rejected over one session Ã¢â‚¬â€ ruleless
+   columns, editorial rows, tint panels, drawn figures, larger type, a
+   thesis line, findings with numbers, a compact index, a dark band, a cream
+   band, questions alone, folding the block into the bio, running prose,
+   three dark blocks, copper caps, hover states, and a tab-like disclosure.
+   This original was kept every time. It is a signpost between the portrait
+   and the news; it is meant to be read in four seconds and then ignored,
+   and each attempt to make it more interesting made it compete with the
+   papers, which are the actual content of this site.
+
+   Do not re-propose. Studies are linked in the palette section of
+   CLAUDE.md. If this block ever needs to improve, the lever is the copy Ã¢â‚¬â€
+   three questions and three glosses Ã¢â‚¬â€ not the frame around it. */
+.theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.theme {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border-top: 2px solid var(--rule-strong);
+  padding-top: 12px;
+}
+.theme-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Headings wrap naturally. text-wrap: balance was tried and removed Ã¢â‚¬â€ it
+   evened the line lengths at the cost of breaking before the sense did. */
+
+/* Hairlines between the selected papers, matching every other list on the
+   site. Without them a two-line title above a one-line title reads as one
+   block of text. */
+.theme-work { margin-top: 6px; display: flex; flex-direction: column; gap: 0; }
+.theme-work a { padding-bottom: 6px; }
+.theme-work a + a { border-top: 1px solid var(--rule); padding-top: 6px; }
+.theme-work a:last-child { padding-bottom: 0; }
+.theme-work-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.theme-work a { font-family: var(--serif); font-size: 14.5px; line-height: 1.33; }
+/* Roman, not italic. The description is already three steps away from the
+   heading above it Ã¢â‚¬â€ smaller, lighter, muted Ã¢â‚¬â€ so the italic was a fourth
+   signal for a distinction that was not in doubt, and it read as a pull
+   quote rather than as a line of explanation.
+
+   14px, not 15. Cutting the line entirely was considered and rejected
+   (https://claude.ai/code/artifact/cfbfd085-6bdb-423a-85a0-0934b1d5f403);
+   what was true in that argument is that the line partly restates the
+   papers beneath it, so it should read as a subordinate gloss rather than
+   as a second heading. At 15px against an 18px name it was competing. */
+.theme-q {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* Two layout devices on the site, each used consistently:
+
+   - the three-column grid (portrait and bio, research themes), where the
+     page measure is divided equally and things span whole columns;
+   - the 140px label row (What's New, Discussions, Teaching, Media), where
+     a short label Ã¢â‚¬â€ date, venue, level Ã¢â‚¬â€ sits beside a body of text.
+
+   What's New used to be 100px, the only place that number appeared. It is
+   a list, so it now takes the list column and matches the three list pages
+   it shares content types with. Putting the lists on the three-column grid
+   instead was tried and reverted: a 252px column for "Undergraduate" is a
+   third of the page spent on one word.
+
+   The Research page's 34px paper number is neither Ã¢â‚¬â€ it is a margin mark. */
+
+.home-tail { margin-top: 54px; }
+
+/* ---------- home keeps the roomier rhythm ----------
+   The tightening above is for the long list pages; the home page has
+   little enough on it that the space reads as composure, not waste. */
+
+#view-home { padding: 32px 0 44px; }
+#view-home .stack { gap: 36px; }
+#view-home .sec-head { padding-bottom: 8px; margin-bottom: 15px; }
+#view-home .sec-head h2 { font-size: 21px; }
+/* The intro runs on the themes grid, not on a column width of its own.
+   Portrait in column 1, bio spanning 2Ã¢â‚¬â€œ3, so the photograph's left edge
+   lines up with the first theme and the bio's with the second. The home
+   page had been running on two grids; this is the one change that makes
+   it read as composed rather than merely tidy. */
+#view-home .intro {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+#view-home .intro > div:last-child { grid-column: span 2; }
+#view-home .portrait-col { flex: none; }
+
+/* Square, filling the column Ã¢â‚¬â€ 252px at the 880 measure.
+   1:1 is a real headshot format (faculty directories, conference
+   programs) rather than a ratio picked to hit a height. It is also
+   shorter than the 270 it replaces, so the plate gets wider and the
+   intro block gets shorter at the same time.
+
+   No frame. A mat and hairline was built and rejected on sight as a
+   picture-frame gesture that dates the page; the photograph keeps the
+   hard edge it already has.
+
+   object-position pins the top so the 33% the square crop discards
+   comes off the bottom, which in this photograph is jacket. Centred Ã¢â‚¬â€
+   the default Ã¢â‚¬â€ it would take half of that off the hair. */
+#view-home .portrait { width: 100%; height: auto; aspect-ratio: 1 / 1; }
+#view-home .portrait img { object-position: center top; }
+#view-home .lede { font-size: 20px; line-height: 1.6; }
+#view-home .sub { font-size: 17px; line-height: 1.68; margin-top: 12px; }
+#view-home .whats-new { gap: 0 16px; }
+#view-home .whats-new > * { padding: 8px 0; }
+#view-home .whats-new > *:nth-child(1), #view-home .whats-new > *:nth-child(2) { padding-top: 0; }
+#view-home .wn-date { font-size: 15px; }
+#view-home .wn-text { font-size: 16px; line-height: 1.42; }
+
+/* Themes stack well before the phone breakpoint. Three columns inside a
+   ~700px viewport leaves each about 215px, which chops the questions into
+   three ragged lines. Balancing is also switched off once stacked: at full
+   width the headings should simply fill the line. */
+@media (max-width: 900px) {
+  .theme-grid { grid-template-columns: 1fr; gap: 20px; }
+  .theme-name { text-wrap: wrap; }
+  .theme-q { max-width: 60ch; }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+  .theme-grid { grid-template-columns: 1fr; gap: 18px; }
+  :root { --gutter: 22px; }
+  .masthead { padding: 18px 0 11px; }
+  .masthead-inner { align-items: flex-start; gap: 18px; }
+  .wordmark { font-size: 25px; }
+  .mast-school { display: none; }
+  .logo-slot { width: 138px; }
+  .page-title { font-size: 21px; }
+  .page { padding: 18px 0 26px; }
+  .stack { gap: 18px; }
+  .tabs { display: none; }
+  .navmenu { display: block; flex: 1; }
+  .intro { flex-direction: column; gap: 20px; }
+  .portrait-col { flex: none; }
+  .lede { font-size: 17.5px; }
+  .whats-new { grid-template-columns: 1fr; gap: 0; }
+  .whats-new > *:nth-child(2n) { border-top: 0; padding-top: 0; }
+  .whats-new > *:nth-child(2n+1) { padding-bottom: 3px; }
+
+  #view-home { padding: 22px 0 32px; }
+  #view-home .stack { gap: 26px; }
+  #view-home .intro { grid-template-columns: 1fr; gap: 22px; }
+  #view-home .intro > div:last-child { grid-column: auto; }
+  #view-home .portrait-col { flex: none; }
+  /* Stacked, the plate is an object rather than a column. */
+  #view-home .portrait { width: 200px; }
+  #view-home .lede { font-size: 18px; }
+  #view-home .sub { font-size: 16px; }
+  #view-home .whats-new { grid-template-columns: 1fr; }
+  #view-home .whats-new > *:nth-child(2n) { border-top: 0; padding-top: 0; }
+  #view-home .whats-new > *:nth-child(2n+1) { padding-bottom: 3px; }
+  #view-home .whats-new { grid-template-columns: 1fr; gap: 2px; }
+  #view-home .wn-date { padding-top: 13px; }
+  .paper { grid-template-columns: 1fr; }
+  .paper-num { padding-top: 0; padding-bottom: 2px; }
+  .disc, .course, .media { grid-template-columns: 1fr; gap: 4px; }
+  .venue, .level, .media-date { padding-top: 0; }
+  .foot-links { text-align: left; }
+  .site-foot .wrap { padding-top: 26px; padding-bottom: 30px; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  body { background: none; }
+  .page { padding-top: 0; }
+
+  /* Sticky chrome means nothing on paper. */
+  .tabs-shell, .navmenu { display: none; }
+
+  /* <details> prints closed. Without this rule the Research page prints
+     with every abstract and presentation list silently missing Ã¢â‚¬â€ the
+     single worst thing this stylesheet prevents. */
+  details > .panel { display: block !important; }
+  details > summary { color: var(--ink); font-weight: 500; }
+  .caret { display: none; }
+
+  /* The footer band is a background colour, and browsers do not print
+     background colours by default. Left alone, #CBC3BA text would print
+     on white paper Ã¢â‚¬â€ invisible. Reprint the band as plain text. */
+  .site-foot { background: none; color: var(--ink); border-top: 1px solid var(--rule); }
+  .foot-name { color: var(--ink); }
+  .foot-links a { color: var(--ink); text-decoration-color: var(--rule); }
+  .foot-role, .foot-updated { color: var(--muted); }
+  .foot-rule { background: var(--rule); }
+
+  /* An entry should not split across a page break. */
+  .paper, .disc, .course, .media, .theme { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Paper is not clickable, so give the reader the destination. Placeholder
+     and mail links are excluded, so the mockup does not print "(#)" beside
+     all 55 of them; this starts earning its place once real URLs land. */
+  a[href]:not([href="#"]):not([href^="mailto:"])::after {
+    content: " (" attr(href) ")";
+    font-size: 11px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+}
+/* ==========================================================================
+   SITE ADDITIONS
+   Present on the real site and not in the mockup, which had no <head>,
+   no real navigation and no skip link.
+   ========================================================================== */
+
+/* The masthead name links home. It must not take the link colour - it is the
+   masthead, not a link in prose. */
+.wordmark-link {
+  color: inherit;
+  text-decoration: none;
+}
+.wordmark-link:hover { color: inherit; text-decoration: none; }
+
+/* Keyboard users land on the tab bar otherwise, and have to walk the whole
+   nav on every page. */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 10px 16px;
+  z-index: 100;
+  font-size: 13px;
+  border: 1px solid var(--rule-strong);
+}
+.skip:focus { left: 8px; top: 8px; }
+/* ==========================================================================
+   PRINT
+   People print the Research page before a seminar. Browsers print a closed
+   <details> closed, so the abstracts have to be forced open here or they are
+   silently lost from the printout.
+   ========================================================================== */
+
+@media print {
+  :root {
+    --bg: #FFFFFF;
+    --ink: #000000;
+    --muted: #333333;
+    --rule: #BBBBBB;
+    --rule-strong: #000000;
+  }
+
+  body { background: #FFFFFF; font-size: 10.5pt; }
+
+  /* Screen furniture that means nothing on paper. */
+  .keyline,
+  .tabs-shell,
+  .navmenu,
+  .logo-slot { display: none !important; }
+
+  .masthead { padding: 0 0 10pt; }
+  .wordmark { font-size: 20pt; }
+  .wrap { max-width: none; padding: 0; }
+
+  /* Every panel open, and the twisty gone - it is a control, not content. */
+  details > .panel,
+  .panel { display: block !important; }
+  details > summary { display: none !important; }
+  .panel { border-left: 0; padding-left: 0; margin-top: 2pt; }
+
+  /* Give the abstract a label, since its summary row is suppressed above. */
+  .panel.abstract::before {
+    content: "Abstract. ";
+    font-weight: 600;
+  }
+
+  /* A link is useless on paper unless its target is printed with it. */
+  a { color: #000000; text-decoration: none; }
+  .links a::after,
+  .media-title::after {
+    content: " <" attr(href) ">";
+    font-size: 8.5pt;
+    color: #444444;
+    word-break: break-all;
+  }
+  /* Internal jumps and unfilled stubs would print as noise. */
+  .links a[href="#"]::after,
+  .media-title[href="#"]::after { content: ""; }
+
+  /* Nothing should straddle a page break mid-entry. */
+  .paper, .media, .disc, .course { break-inside: avoid; page-break-inside: avoid; }
+  .sec-head { break-after: avoid; page-break-after: avoid; }
+
+  /* The dark band inverts to nothing useful and costs a whole toner pass. */
+  .site-foot { background: none; color: #000000; border-top: 1px solid #BBBBBB; }
+  .site-foot .wrap { padding: 10pt 0 0; }
+  .foot-name, .foot-links a { color: #000000; }
+  .foot-rule { display: none; }
+  .foot-role, .foot-updated { color: #333333; }
+}
+/* Jumping to a paper from the home page would otherwise land it underneath the
+   sticky tab bar. */
+.paper[id] { scroll-margin-top: 66px; }
+@media (max-width: 760px) { .paper[id] { scroll-margin-top: 58px; } }
+/* Links that leave the site open in a new tab. Sighted users see the new tab
+   appear; screen-reader users are told, which is the whole point of this class.
+   Clipped rather than display:none, so it is still read aloud. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
