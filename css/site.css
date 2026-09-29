@@ -1,6 +1,6 @@
 :root {
-  --bg:          #F8F7F4;
-  --bg-alt:      #F1EFE9;
+  --bg:          #F4F3EF;
+  --bg-alt:      #ECEAE4;
   --ink:         #221F1C;
   --muted:       #6B635C;
   --rule:        #DFDBCE;
@@ -57,7 +57,7 @@ h1, h2, h3, p { margin: 0; }
 .wrap { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); }
 
 /* Journal-cover keyline. Bookends the dark footer at the other end.
-   4px, not 5 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â burgundy is dark enough that 5 read heavier than intended. */
+   4px, not 5 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â burgundy is dark enough that 5 read heavier than intended. */
 .keyline { height: 4px; background: var(--keyline); }
 
 /* ---------- masthead ---------- */
@@ -213,7 +213,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* Square corners, deliberately: there is no border-radius anywhere on
    this site. A rounded photograph would be the one rounded thing on the
-   page, and rounding a portrait is the avatar convention ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â app UI
+   page, and rounding a portrait is the avatar convention ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â app UI
    grammar on a page built to read as printed matter.
 
    No frame either. A 1px --rule hairline was tried and removed: the
@@ -304,7 +304,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* One treatment for every venue line: published, forthcoming, under review. */
 /* Journal names sit below the title in weight but stand apart by colour and
-   italic ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â citation convention does the work, so nothing has to shout. */
+   italic ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â citation convention does the work, so nothing has to shout. */
 .venue-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 1px 9px; }
 .journal {
   font-family: var(--serif);
@@ -329,7 +329,7 @@ h1, h2, h3, p { margin: 0; }
 
 .links { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; }
 
-/* Stacked, never side by side ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â an open panel would shove its neighbour around. */
+/* Stacked, never side by side ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â an open panel would shove its neighbour around. */
 .disclosures { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
 details { width: 100%; }
 
@@ -351,11 +351,11 @@ details[open] > summary .caret { transform: rotate(90deg); }
 @media (prefers-reduced-motion: reduce) { .caret { transition: none; } }
 
 .panel { border-left: 1px solid var(--rule); padding: 2px 0 2px 16px; margin: 6px 0 8px; }
-/* No cap. The abstract fills the panel ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 733px at the 880 measure, about
-   100 characters ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â which is as wide as it can go without leaving the
+/* No cap. The abstract fills the panel ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â 733px at the 880 measure, about
+   100 characters ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â which is as wide as it can go without leaving the
    column the rest of the entry sits in.
 
-   This went 64ch ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ 82ch ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ none, each step to make the block shorter
+   This went 64ch ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ 82ch ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ none, each step to make the block shorter
    rather than to improve the measure; at 100ch the line is past textbook
    comfort. Two things pay for that: 1.65 line-height, so the eye finds
    the start of the next line, and the fact that the panel is closed by
@@ -388,7 +388,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 
 /* Each panel carries its own legend rather than the page carrying one. A
    legend is only useful where the marker is in view, and these panels open
-   one at a time ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a note at the foot of a twelve-entry page would be a
+   one at a time ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â a note at the foot of a twelve-entry page would be a
    scroll away from the asterisk it explains. Only the markers that actually
    occur in a given list are printed, so two papers carry no legend at all. */
 .panel .legend {
@@ -441,7 +441,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
   border-bottom: 1px solid var(--rule);
 }
 .media:last-child { border-bottom: 0; }
-/* Dates set like What's New ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â both are dates, so both are serif figures. */
+/* Dates set like What's New ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â both are dates, so both are serif figures. */
 .media-date {
   font-family: var(--serif);
   font-size: 15px;
@@ -456,7 +456,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
   line-height: 1.3;
   text-wrap: pretty;
 }
-/* The outlet is the signal for this page's readers, not the headline ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+/* The outlet is the signal for this page's readers, not the headline ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
    so it sits in ink, scannable down the column. */
 .media-outlet { font-size: 13.5px; font-weight: 500; color: var(--ink); }
 /* How Marius was involved. Factual, not evaluative: a controlled vocabulary
@@ -550,7 +550,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 /* Capped columns. Static: no hover colour, no click behaviour, no links on
    the questions. Everything is visible at rest.
 
-   Fifteen alternatives were built and rejected over one session ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ruleless
+   Fifteen alternatives were built and rejected over one session ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ruleless
    columns, editorial rows, tint panels, drawn figures, larger type, a
    thesis line, findings with numbers, a compact index, a dark band, a cream
    band, questions alone, folding the block into the bio, running prose,
@@ -561,8 +561,8 @@ details[open] > summary .caret { transform: rotate(90deg); }
    papers, which are the actual content of this site.
 
    Do not re-propose. Studies are linked in the palette section of
-   CLAUDE.md. If this block ever needs to improve, the lever is the copy ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
-   three questions and three glosses ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â not the frame around it. */
+   CLAUDE.md. If this block ever needs to improve, the lever is the copy ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
+   three questions and three glosses ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â not the frame around it. */
 .theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .theme {
   display: flex;
@@ -579,7 +579,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
   letter-spacing: -0.01em;
 }
 
-/* Headings wrap naturally. text-wrap: balance was tried and removed ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it
+/* Headings wrap naturally. text-wrap: balance was tried and removed ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â it
    evened the line lengths at the cost of breaking before the sense did. */
 
 /* Hairlines between the selected papers, matching every other list on the
@@ -599,7 +599,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 }
 .theme-work a { font-family: var(--serif); font-size: 14.5px; line-height: 1.33; }
 /* Roman, not italic. The description is already three steps away from the
-   heading above it ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â smaller, lighter, muted ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â so the italic was a fourth
+   heading above it ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â smaller, lighter, muted ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â so the italic was a fourth
    signal for a distinction that was not in doubt, and it read as a pull
    quote rather than as a line of explanation.
 
@@ -621,7 +621,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
    - the three-column grid (portrait and bio, research themes), where the
      page measure is divided equally and things span whole columns;
    - the 140px label row (What's New, Discussions, Teaching, Media), where
-     a short label ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â date, venue, level ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â sits beside a body of text.
+     a short label ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â date, venue, level ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â sits beside a body of text.
 
    What's New used to be 100px, the only place that number appeared. It is
    a list, so it now takes the list column and matches the three list pages
@@ -629,7 +629,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
    instead was tried and reverted: a 252px column for "Undergraduate" is a
    third of the page spent on one word.
 
-   The Research page's 34px paper number is neither ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it is a margin mark. */
+   The Research page's 34px paper number is neither ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â it is a margin mark. */
 
 .home-tail { margin-top: 54px; }
 
@@ -642,7 +642,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 #view-home .sec-head { padding-bottom: 8px; margin-bottom: 15px; }
 #view-home .sec-head h2 { font-size: 21px; }
 /* The intro runs on the themes grid, not on a column width of its own.
-   Portrait in column 1, bio spanning 2ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“3, so the photograph's left edge
+   Portrait in column 1, bio spanning 2ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ3, so the photograph's left edge
    lines up with the first theme and the bio's with the second. The home
    page had been running on two grids; this is the one change that makes
    it read as composed rather than merely tidy. */
@@ -655,7 +655,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 #view-home .intro > div:last-child { grid-column: span 2; }
 #view-home .portrait-col { flex: none; }
 
-/* Square, filling the column ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 252px at the 880 measure.
+/* Square, filling the column ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â 252px at the 880 measure.
    1:1 is a real headshot format (faculty directories, conference
    programs) rather than a ratio picked to hit a height. It is also
    shorter than the 270 it replaces, so the plate gets wider and the
@@ -666,8 +666,8 @@ details[open] > summary .caret { transform: rotate(90deg); }
    hard edge it already has.
 
    object-position pins the top so the 33% the square crop discards
-   comes off the bottom, which in this photograph is jacket. Centred ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
-   the default ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it would take half of that off the hair. */
+   comes off the bottom, which in this photograph is jacket. Centred ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
+   the default ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â it would take half of that off the hair. */
 #view-home .portrait { width: 100%; height: auto; aspect-ratio: 1 / 1; }
 #view-home .portrait img { object-position: center top; }
 #view-home .lede { font-size: 20px; line-height: 1.6; }
@@ -742,7 +742,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
   .tabs-shell, .navmenu { display: none; }
 
   /* <details> prints closed. Without this rule the Research page prints
-     with every abstract and presentation list silently missing ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the
+     with every abstract and presentation list silently missing ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â the
      single worst thing this stylesheet prevents. */
   details > .panel { display: block !important; }
   details > summary { color: var(--ink); font-weight: 500; }
@@ -750,7 +750,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 
   /* The footer band is a background colour, and browsers do not print
      background colours by default. Left alone, #CBC3BA text would print
-     on white paper ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â invisible. Reprint the band as plain text. */
+     on white paper ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â invisible. Reprint the band as plain text. */
   .site-foot { background: none; color: var(--ink); border-top: 1px solid var(--rule); }
   .foot-name { color: var(--ink); }
   .foot-links a { color: var(--ink); text-decoration-color: var(--rule); }
